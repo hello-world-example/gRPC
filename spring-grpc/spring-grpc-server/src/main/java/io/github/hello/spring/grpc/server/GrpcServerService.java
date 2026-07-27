@@ -1,15 +1,15 @@
 package io.github.hello.spring.grpc.server;
 
-import io.github.hello.spring.grpc.server.proto.HelloReply;
-import io.github.hello.spring.grpc.server.proto.HelloRequest;
-import io.github.hello.spring.grpc.server.proto.SimpleGrpc;
+import io.github.hello.spring.grpc.api.hello.HelloGrpc;
+import io.github.hello.spring.grpc.api.hello.HelloReply;
+import io.github.hello.spring.grpc.api.hello.HelloRequest;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class GrpcServerService extends SimpleGrpc.SimpleImplBase {
+public class GrpcServerService extends HelloGrpc.HelloImplBase {
 
     @Override
     public void sayHello(HelloRequest req, StreamObserver<HelloReply> responseObserver) {
