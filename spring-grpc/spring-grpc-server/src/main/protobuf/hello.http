@@ -1,0 +1,7 @@
+
+###
+GRPC localhost:9090/Simple/SayHello
+
+{
+  "name": "123"
+}

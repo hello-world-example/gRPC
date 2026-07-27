@@ -7,11 +7,111 @@
     <groupId>io.github.hello</groupId>
     <artifactId>gRPC</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>spring-grpc</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>25</maven.compiler.source>
         <maven.compiler.target>25</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring-boot.version>4.1.0</spring-boot.version>
+        <!-- 使用 spring-boot-dependencies 中定义的版本 protobuf-java.version -->
+        <protobuf.version>4.34.2</protobuf.version>
+        <!-- 使用 spring-boot-dependencies 中定义的版本 grpc-java.version -->
+        <grpc.version>1.80.0</grpc.version>
+        <!-- 使用 spring-boot-dependencies 中定义的版本 lombok.versio -->
+        <lombok.version>1.18.46</lombok.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <annotationProcessorPaths>
+                        <!-- 显式配置 Lombok 注解处理器 -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>io.github.ascopes</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 关键配置：找不到 .proto 源文件时警告并跳过，不报 fatal ERROR 终止构建 -->
+                    <failOnMissingSources>false</failOnMissingSources>
+                    <!-- 默认开启增量编译以提升重新构建的速度 -->
+                    <incrementalCompilation>true</incrementalCompilation>
+                    <!-- 打包时将原始 .proto 放入 JAR 供下游 import -->
+                    <embedSourcesInClassOutputs>true</embedSourcesInClassOutputs>
+
+                    <!-- 自定义 .proto 源文件所在的目录 -->
+                    <sourceDirectories>
+                        <sourceDirectory>src/main/protobuf</sourceDirectory>
+                        <sourceDirectory>src/main/proto</sourceDirectory>
+                    </sourceDirectories>
+
+                    <!-- 1. protoc 编译器配置 -->
+                    <protoc kind="binary-maven">
+                        <version>${protobuf.version}</version>
+                    </protoc>
+                    <!-- 2. 生成 gRPC 代码 -->
+                    <plugins>
+                        <plugin kind="binary-maven">
+                            <groupId>io.grpc</groupId>
+                            <artifactId>protoc-gen-grpc-java</artifactId>
+                            <version>${grpc.version}</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>
