@@ -13,7 +13,12 @@ service Hello {
 
 // The request message containing the user's name.
 message HelloRequest {
+
+  reserved 2, 3;
+  reserved "field4";
+
   string name = 1;
+
 }
 
 // The response message containing the greetings
