@@ -9,7 +9,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ProtoBuf</artifactId>
+    <artifactId>protobuf-java</artifactId>
 
     <properties>
         <maven.protobuf.skip>false</maven.protobuf.skip>
