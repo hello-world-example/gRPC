@@ -12,6 +12,7 @@
     <modules>
         <module>spring-grpc</module>
         <module>protobuf-java</module>
+        <module>grpc-java</module>
     </modules>
 
     <properties>
