@@ -11,6 +11,7 @@
 
     <modules>
         <module>spring-grpc</module>
+        <module>ProtoBuf</module>
     </modules>
 
     <properties>
@@ -19,6 +20,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <maven.test.skip>true</maven.test.skip>
+        <!-- 默认跳过，子模块开启 -->
+        <maven.protobuf.skip>true</maven.protobuf.skip>
 
         <spring-boot.version>4.1.0</spring-boot.version>
         <!-- 使用 spring-boot-dependencies 中定义的版本 protobuf-java.version -->
@@ -73,6 +76,8 @@
                 <groupId>io.github.ascopes</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
                 <configuration>
+                    <skip>${maven.protobuf.skip}</skip>
+
                     <!-- 关键配置：找不到 .proto 源文件时警告并跳过，不报 fatal ERROR 终止构建 -->
                     <failOnMissingSources>false</failOnMissingSources>
                     <!-- 默认开启增量编译以提升重新构建的速度 -->
@@ -83,8 +88,8 @@
                     <!-- 自定义 .proto 源文件所在的目录 -->
                     <sourceDirectories>
                         <sourceDirectory>src/main/java</sourceDirectory>
-                        <!--<sourceDirectory>src/main/protobuf</sourceDirectory>-->
-                        <!--<sourceDirectory>src/main/proto</sourceDirectory>-->
+                        <sourceDirectory>src/main/protobuf</sourceDirectory>
+                        <sourceDirectory>src/main/proto</sourceDirectory>
                     </sourceDirectories>
 
                     <!-- 1. protoc 编译器配置 -->

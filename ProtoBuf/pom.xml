@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>io.github.hello</groupId>
-        <artifactId>spring-grpc</artifactId>
+        <artifactId>gRPC</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>spring-grpc-api</artifactId>
+    <artifactId>ProtoBuf</artifactId>
 
     <properties>
         <maven.protobuf.skip>false</maven.protobuf.skip>
@@ -17,13 +17,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-protobuf</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
         </dependency>
     </dependencies>
-
 </project>

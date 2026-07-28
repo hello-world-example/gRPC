@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package io.github.hello.protobuf;
+
+option java_multiple_files = true;
+option java_package = "io.github.hello.protobuf";
+
+import "google/protobuf/any.proto";
+import "google/protobuf/struct.proto";
+
+message DetailInfo {
+  string address = 1;
+  int32 age = 2;
+}
+
+message Person {
+  uint64 id = 1;
+  string name = 2;
+  // 1. 动态强类型（Any）
+  google.protobuf.Any extra_any = 3;
+  // 2. 动态弱类型 JSON（Struct）
+  google.protobuf.Struct extra_struct = 4;
+}
